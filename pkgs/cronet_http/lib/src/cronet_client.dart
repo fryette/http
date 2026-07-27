@@ -303,8 +303,9 @@ class CronetEngine {
       Duration? maxStaleDnsExpiredDelay}) {
     try {
       return using((arena) {
-        final builder = jb.CronetEngine$Builder(
-            androidApplicationContext..releasedBy(arena))
+        final builder = jb.CronetEngine$Builder(androidApplicationContext
+            .as(jb.Context.type, releaseOriginal: true)
+          ..releasedBy(arena))
           ..releasedBy(arena);
 
         if (storagePath != null) {
@@ -708,7 +709,8 @@ jb.UrlRequestCallbackProxy$UrlRequestCallbackInterface _urlRequestCallbacks(
 /// [Cronet](https://developer.android.com/guide/topics/connectivity/cronet)
 /// network stack.
 class CronetClient extends BaseClient {
-  static final _executor = jb.Executors.newCachedThreadPool();
+  static final _executor = jb.Executors.newCachedThreadPool()!
+      .as(jb.Executor.type, releaseOriginal: true);
   CronetEngine? _engine;
   bool _isClosed = false;
 
